@@ -18,7 +18,6 @@ namespace aiplacement_exaaichat\output;
 
 use aiplacement_exaaichat\utils;
 use core\hook\output\after_http_headers;
-use core\hook\output\before_footer_html_generation;
 
 /**
  * Output handler for the course assist AI Placement.

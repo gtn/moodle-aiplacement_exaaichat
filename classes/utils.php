@@ -16,10 +16,6 @@
 
 namespace aiplacement_exaaichat;
 
-use core_ai\aiactions\explain_text;
-use core_ai\aiactions\summarise_text;
-use core_ai\manager;
-
 /**
  * AI Placement course assist utils.
  *
