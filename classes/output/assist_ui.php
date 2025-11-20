@@ -17,6 +17,7 @@
 namespace aiplacement_exaaichat\output;
 
 use aiplacement_exaaichat\utils;
+use block_exaaichat\output;
 use core\hook\output\after_http_headers;
 
 /**
@@ -78,22 +79,19 @@ class assist_ui {
 
         $canEdit = has_capability('moodle/course:update', \context_course::instance($COURSE->id));
 
-        if (!$block_record_course) {
-            if ($canEdit) {
-                $hook->add_html('TODO: Chat im Kurs konfigurieren');
-            } else {
-                // no block instance found, and user cannot add one
-            }
-            return;
+        if ($block_record_course) {
+            /* @var \block_exaaichat $block_instance_course */
+            $block_instance_course = block_instance($block_record_course->blockname, $block_record_course);
+            $content = $block_instance_course->get_content(true);
+            $instance_id = $block_instance_course->instance->id;
+        } else {
+            $content = output::render_default_chat_interface();
+            $instance_id = $content->instance_id;
         }
 
-        /* @var \block_exaaichat $block_instance_course */
-        $block_instance_course = block_instance($block_record_course->blockname, $block_record_course);
-
-        $content = $block_instance_course->get_content(true);
 
         $hook->add_html($OUTPUT->render_from_template('aiplacement_exaaichat/content', [
-            'blockinstanceid' => $block_instance_course->instance->id,
+            'blockinstanceid' => $instance_id,
             'content' => $content->text,
         ]));
     }
