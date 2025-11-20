@@ -25,7 +25,7 @@ namespace aiplacement_exaaichat;
  */
 class placement extends \core_ai\placement {
     #[\Override]
-    public static function get_action_list(): array {
+    public function get_action_list(): array {
         return [
             // \core_ai\aiactions\summarise_text::class,
         ];
