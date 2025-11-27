@@ -34,66 +34,12 @@ class assist_ui {
      * @param after_http_headers $hook
      */
     public static function chat_content_handler(after_http_headers $hook): void {
-        global $COURSE, $DB, $PAGE, $OUTPUT;
-
         // Preflight checks.
         if (!self::preflight_checks()) {
             return;
         }
 
-        $regions = $PAGE->blocks->get_regions();
-
-        $block_instance_current_page = null;
-        foreach ($regions as $region) {
-            $instances = $PAGE->blocks->get_blocks_for_region($region);
-
-            foreach ($instances as $block_instance_current_page) {
-                if ($block_instance_current_page instanceof \block_exaaichat) {
-                    break 2;
-                }
-            }
-
-            $block_instance_current_page = null;
-        }
-
-        if ($block_instance_current_page) {
-            $visible = $DB->get_field('block_positions', 'visible', [
-                'blockinstanceid' => $block_instance_current_page->instance->id,
-                'contextid' => $block_instance_current_page->context->get_parent_context()->id,
-                // 'region' => $block_instance_current_page->instance->region,
-            ]);
-
-            if ($visible === false) {
-                // === false => couldn't find visibility record, so block is visible
-                return;
-            } elseif ($visible) {
-                // block is visible on this page, so do not show chat
-                return;
-            }
-        }
-
-        $block_record_course = $DB->get_record('block_instances', [
-            'blockname' => 'exaaichat',
-            'parentcontextid' => \context_course::instance($COURSE->id)->id,
-        ]);
-
-        $canEdit = has_capability('moodle/course:update', \context_course::instance($COURSE->id));
-
-        if ($block_record_course) {
-            /* @var \block_exaaichat $block_instance_course */
-            $block_instance_course = block_instance($block_record_course->blockname, $block_record_course);
-            $content = $block_instance_course->get_content(true);
-            $instance_id = $block_instance_course->instance->id;
-        } else {
-            $content = output::render_default_chat_interface();
-            $instance_id = $content->instance_id;
-        }
-
-
-        $hook->add_html($OUTPUT->render_from_template('aiplacement_exaaichat/content', [
-            'blockinstanceid' => $instance_id,
-            'content' => $content->text,
-        ]));
+        $hook->add_html(output::render_aiplacement_content());
     }
 
     /**
