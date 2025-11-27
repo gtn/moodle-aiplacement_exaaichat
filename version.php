@@ -28,6 +28,7 @@ $plugin->component = 'aiplacement_exaaichat';
 $plugin->version = 2025112700;
 $plugin->requires = 2025092600;
 $plugin->maturity = MATURITY_STABLE;
+$plugin->release = '1.0';
 $plugin->dependencies = [
     'block_exaaichat' => 2025112700,
 ];
