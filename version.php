@@ -25,10 +25,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'aiplacement_exaaichat';
-$plugin->version = 2025120300;
+$plugin->version = 2026020500;
 $plugin->requires = 2025041400;
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.0';
+$plugin->release = '5.1';
 $plugin->dependencies = [
     'block_exaaichat' => 2025112700,
 ];
